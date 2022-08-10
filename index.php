@@ -1,4 +1,10 @@
 <?php
+    class Contato{
+        public $nome;
+        public $email;
+        public $tel;
+    }
+
     $conexao = new mysqli("127.0.0.1", "root", "", "site_teste");    
     if(isset($_POST['btnCadastrar'])){
         
@@ -58,19 +64,60 @@
             </thead>
             <tbody>
                 <?php
+                    
+                    $objContato = new Contato();
+
+                    $objContato->nome = "José";
+                    $objContato->email = "jose@gmail.com";
+                    $objContato->tel = "55(11)6666-6666";
+
+                    var_dump($objContato);
+
+                    $cx = new PDO('mysql:host=localhost;dbname=site_teste', 'root', '');
+
                     $cmdSQl = 'SELECT * FROM contato ORDER BY nome asc';
-                    $dados = $conexao->query($cmdSQl);
-                    if($dados->num_rows>0){
-                        $resultado = $dados->fetch_all();
-                        
-                        foreach ($resultado as $linha) {
+
+                    $cxPronta = $cx->prepare($cmdSQl);
+
+                    $cxPronta->execute();
+
+                    $quant_registros = $cxPronta->rowCount();
+                    // if($quant_registros > 0){
+                    //     var_dump($cxPronta->fetchAll(PDO::FETCH_OBJ));
+                    //     $dados = $cxPronta->fetchAll();
+                    //     foreach ($dados as $linha) {
+                    //        echo "<tr>
+                    //             <th scope='row'>".$linha['nome']."</th>
+                    //             <td>$linha[1]</td>
+                    //             <td>$linha[2]</td>
+                    //         </tr>";
+                    //     }
+                    // }
+
+                    // if($quant_registros > 0){
+                    //     $contatos = $cxPronta->fetchAll(PDO::FETCH_OBJ);
+                    //     foreach ($contatos as $contato) {
+                    //        echo "<tr>
+                    //             <th scope='row'>$contato->nome</th>
+                    //             <td>$contato->email</td>
+                    //             <td>$contato->tel</td>
+                    //         </tr>";
+                    //     }
+                    // }
+
+                    if($quant_registros > 0){                        
+
+                        $contatos = $cxPronta->fetchAll(PDO::FETCH_CLASS, 'Contato');                        
+                        foreach ($contatos as $contato) {
                            echo "<tr>
-                                <th scope='row'>$linha[0]</th>
-                                <td>$linha[1]</td>
-                                <td>$linha[2]</td>
+                                <th scope='row'>$contato->nome</th>
+                                <td>$contato->email</td>
+                                <td>$contato->tel</td>
                             </tr>";
                         }
                     }
+
+
                 ?>
                 
             </tbody>
