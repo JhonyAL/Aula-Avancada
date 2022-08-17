@@ -1,134 +1,81 @@
-<?php
-    class Contato{
-        public $nome;
-        public $email;
-        public $tel;
-    }
-
-    $conexao = new mysqli("127.0.0.1", "root", "", "site_teste");    
-    if(isset($_POST['btnCadastrar'])){
-        
-        $nome = $_POST['txtNome']; 
-        $email = $_POST['txtEmail'];          
-        $tel = $_POST['txtTel'];
-
-        $cmdSQl = "INSERT INTO `contato`(nome, email, tel) VALUES('$nome','$email','$tel')";
-        if(!$conexao->query($cmdSQl)){
-            echo "<script>alert('Erro de cadastro')</script>";
-        }
-    }
-    
-  
-?>
-
-<!doctype html>
-<html lang="pt-BR">
-
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-
 <body>
+    <form method="get">
+        <input type="number" name="txtNota1" placeholder="Primeira nota">
+        <input type="number" name="txtNota2" placeholder="Segunda nota">
+        <input type="number" name="txtNota3" placeholder="Terceira nota">
+        <input type="number" name="txtNota4" placeholder="Quarta nota">
+        <input type="number" name="txtFrequencia" placeholder="Frequência"><br>
+        <input type="submit" name="btnCalc">
+    </form>
+    <?php
+        $nota1 = $_GET['txtNota1'];
+        $nota2 = $_GET['txtNota2'];
+        $nota3 = $_GET['txtNota3'];
+        $nota4 = $_GET['txtNota4'];
+        $mediaNota = ($nota1 + $nota2 + $nota3 + $nota4) / 4;
+        $frequencia = $_GET['txtFrequencia'];
 
-    <div class="container">
-        <form method="post">
-            <div class="mb-3">
-                <label class="form-label">Nome</label>
-                <input type="text" class="form-control" name="txtNome">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">E-mail</label>
-                <input type="email" class="form-control" name="txtEmail">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Telefone</label>
-                <input type="tel" class="form-control" name="txtTel">
-            </div>
-            <button type="submit" class="btn btn-primary" name="btnCadastrar">Submit</button>
-        </form>
-
-        <hr>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Tel</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    
-                    $objContato = new Contato();
-
-                    $objContato->nome = "José";
-                    $objContato->email = "jose@gmail.com";
-                    $objContato->tel = "55(11)6666-6666";
-
-                    var_dump($objContato);
-
-                    $cx = new PDO('mysql:host=localhost;dbname=site_teste', 'root', '');
-
-                    $cmdSQl = 'SELECT * FROM contato ORDER BY nome asc';
-
-                    $cxPronta = $cx->prepare($cmdSQl);
-
-                    $cxPronta->execute();
-
-                    $quant_registros = $cxPronta->rowCount();
-                    // if($quant_registros > 0){
-                    //     var_dump($cxPronta->fetchAll(PDO::FETCH_OBJ));
-                    //     $dados = $cxPronta->fetchAll();
-                    //     foreach ($dados as $linha) {
-                    //        echo "<tr>
-                    //             <th scope='row'>".$linha['nome']."</th>
-                    //             <td>$linha[1]</td>
-                    //             <td>$linha[2]</td>
-                    //         </tr>";
-                    //     }
-                    // }
-
-                    // if($quant_registros > 0){
-                    //     $contatos = $cxPronta->fetchAll(PDO::FETCH_OBJ);
-                    //     foreach ($contatos as $contato) {
-                    //        echo "<tr>
-                    //             <th scope='row'>$contato->nome</th>
-                    //             <td>$contato->email</td>
-                    //             <td>$contato->tel</td>
-                    //         </tr>";
-                    //     }
-                    // }
-
-                    if($quant_registros > 0){                        
-
-                        $contatos = $cxPronta->fetchAll(PDO::FETCH_CLASS, 'Contato');                        
-                        foreach ($contatos as $contato) {
-                           echo "<tr>
-                                <th scope='row'>$contato->nome</th>
-                                <td>$contato->email</td>
-                                <td>$contato->tel</td>
-                            </tr>";
-                        }
-                    }
+        if($mediaNota > 5 && $frequencia >= 70){
+            $situacao = 'Aprovado';
+        }
+        else{
+            $situacao = 'Reprovado';
+        }
 
 
-                ?>
-                
-            </tbody>
-        </table>
-    </div>
-
-    
+        if($mediaNota >= 5){
+            if($mediaNota >= 7){
+                if($mediaNota >= 9){
+                    echo 'Nota: MB; Média: '.$mediaNota.'; Situação: '.$situacao;
+                }
+                else{
+                    echo 'Nota: B; Média: '.$mediaNota.'; Situação: '.$situacao;
+                }
+            }
+            else{
+                echo 'Nota: R; Média: '.$mediaNota.'; Situação: '.$situacao;
+            }
+        }
+        else{
+            echo 'Nota: I; Média: '.$mediaNota.'; Situação: '.$situacao;
+        }
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        // var_dump($_GET);
+        // $idade = $_GET['textIdade'];
+        // if(isset($_GET['textIdade'])){
+        //     if($idade > 17){
+        //         echo 'Pode votar';
+        //     }
+        //     else{
+        //         echo 'Não pode votar';
+        //     }
+        // }
+
+
+        // class Aluno{
+        //     public $nome;
+        //     public $nota;
+        //     public $situacao;
+            
+        // }
+        // $nome = "Jorge";
+        // $idade = 19;
+        // $salario = 1111111.19;
+        // $casado = true;
+        // $pessoas = ["P1","P1","P1","P1","P"];
+
+        // $aluno = new Aluno();
+        // var_dump($nome,$idade,$salario,$casado,$aluno);
+    ?>
 </body>
-
 </html>
