@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <title>Nao sei ainda</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+   <script src="bootstrap/js/jquery-3.3.1.min.js"></script>
+   <script src="bootstrap/js/popper.min.js"></script>
+   <script src="bootstrap/js/bootstrap.min.js"></script>   
+  
+</head>
+
+
+<body>
+
+  <!-- Login -->
+
+  <div class="container">
+    <div class="form">
+      <h3>Faça seu Login</h3>
+      <input id="email" type="text" name="email" placeholder="E-mail" required>
+      <input id="password" type="password" name="password" placeholder="Senha" required>
+      <input id="send" type="submit" name="acao" value="Enviar">
+    </div>
+  </div>
+  
+  <script src="JS/scripts.js"></script>
+  <script>
+    let elementEmail = document.getElementById('email');
+    let elementSenha = document.getElementById('password');
+
+    let btnLogin = document.getElementById('send');
+
+    function fazerLogin(email,senha){
+      if(email == "admin@admin" && senha == "123"){
+        // window.location.assign(window.location.origin+"/homePage.html");
+        window.location.assign(`${window.location.origin}/homePage.html`);
+      }
+      return false;
+    }
+
+    btnLogin.onclick = function(){
+      if(!fazerLogin(elementEmail.value,elementSenha.value)){
+        if(confirm("Senha inválida. \nTentar novamente?")){
+          email = prompt("Email");
+          senha = prompt("Senha");
+          fazerLogin(email,senha);
+        }        
+      }      
+     
+    }
+
+
+    //
+
+    // function teste() {
+    //   if(email == "teste@gmail.com"){
+    //     console.log('True');
+    //   }
+    // }
+
+    // btn.addEventListener(click, teste);
+
+
+  </script>
+
+</body>
+
+</html>
