@@ -1,71 +1,42 @@
 <?php
-    session_start();
+    $cx = new PDO('mysql:host=localhost;dbname=aula_avancada', 'root', '');
 
-    if(isset($_POST['btnLogin'])){
-        $cx = new PDO('mysql:host=localhost;dbname=contato', 'root', '');
-
-        $cmdSQl = "SELECT * FROM admin where admin.email = '".$_POST['txtUsuario']."';";
-            
-        $cxPronta = $cx->prepare($cmdSQl);
-
-        $cxPronta->execute();
-
-        $quant_registros = $cxPronta->rowCount();
-
-            if($quant_registros > 0){
-                $dadosUser = $cxPronta->fetch(PDO::FETCH_OBJ);
-                if($dadosUser->senha == $_POST['txtSenha']){
-                    $_SESSION['userLogado'] = $dadosUser;
-                }
-            }
-
+    $cmdSQl = "SELECT * FROM usuario";
         
-    }  
+    $cxPronta = $cx->prepare($cmdSQl);
 
-    if(isset($_POST['btnSair'])){
-        session_destroy();
-        ?>
-            <meta http-equiv="refresh" content="0; URL='http://teste.local/'"/>
-        <?php
-    }
-    
-  
+    $cxPronta->execute();
+
+    $quant_registros = $cxPronta->rowCount();
+
+    $enviar = "INSERT INTO `usuario`(nome, email, senha) VALUES('$nome','$email','$senha')";
+
 ?>
 
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilo.css">
+
+  <title>Aula Avançada</title>
 </head>
 
 <body>
 
-    <div class="container">
-
+    <div class="container-fluid">
         <?php
-            if(isset($_SESSION['userLogado'] )){
-                var_dump($_SESSION['userLogado']);
-                include_once 'tela_contatos.php';                
-            }
-            else{
-                include_once 'tela_login.php';
-            }
+            include_once './view/usuario_cadastro.php';
         ?>
-
-        
-
-        
     </div>
 
-    
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <script src="./js/jquery.js"></script>
+  <script src="./js/popper.js"></script>
+  <script src="./js/bootstrap.min.js"></script>
 </body>
 
 </html>
