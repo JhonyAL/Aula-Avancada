@@ -4,7 +4,24 @@ if (isset($_POST['btnCadastrar'])) {
     $email = $_POST['textEmail'];
     $senha = $_POST['textSenha'];
 
-    $enviar = "INSERT INTO `usuario`(nome, email, senha) VALUES('$nome','$email','$senha')";
+    
+    
+    
+    
+    $cmdSQl = "INSERT INTO `usuario`(nome, email, senha) VALUES('$nome','$email','$senha')";
+    
+
+    // ORDER BY nome asc
+      
+    $cxPronta = $cx->prepare($cmdSQl);
+
+    
+
+    $cxPronta->execute();
+
+    echo $cxPronta->rowCount();
+
+    // $cmdSQl = "INSERT INTO `usuario`(nome, email, senha) VALUES('$nome','$email','$senha')";
 }
 
 ?>

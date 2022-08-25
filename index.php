@@ -1,18 +1,6 @@
 <?php
-    $cx = new PDO('mysql:host=localhost;dbname=aula_avancada', 'root', '');
-
-    $cmdSQl = "SELECT * FROM usuario";
-        
-    $cxPronta = $cx->prepare($cmdSQl);
-
-    $cxPronta->execute();
-
-    $quant_registros = $cxPronta->rowCount();
-
-    $enviar = "INSERT INTO `usuario`(nome, email, senha) VALUES('$nome','$email','$senha')";
-
+  require_once 'class/conexao.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
