@@ -1,38 +1,31 @@
 <?php
+require_once 'Conexao.php';
+if (isset($_POST['btnCadastrar'])) {
+    $email = $_POST['txtEmail'];
+    $senha = $_POST['txtSenha'];
+    $nome = $_POST['txtNome'];
 
-    if(isset($_POST['btnCadastrar'])){
-        $email = $_POST['txtEmail'];
-        $senha = $_POST['txtSenha'];
-        $nome = $_POST['txtNome'];
+    $cmdSql = "INSERT INTO usuario VALUES (:email,:senha,:nome)";
+    $dados = [
+        ':email' => $email,
+        ':senha' => $senha,
+        ':nome' => $nome
+    ];
 
-        $cmdSql = "INSERT INTO `usuario` VALUES(:email, :senha, :nome)";
-        $dados = [
-            ':email' => $email,
-            ':senha' => $senha,
-            ':nome' => $nome
-        ];
+    $cxPronta = $cx->prepare($cmdSql);
 
-        $cxPronta = $cx->prepare($cmdSql);
-        if (($cxPronta->execute($dados))){
-            echo '
-                <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Cadastro</h4>
-                    <p>Cadastro realizado com sucesso!</p>
-                </div>
-            ';
-        }
-        else {
-            echo '
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Cadastro</h4>
-                    <p>Erro ao cadastrar o usuário!</p>
-                </div>
-            ';
-        }
-
-        $quant_registros = $cxPronta->rowCount();
+    if ($cxPronta->execute($dados)) {
+        echo '<div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Cadastro</h4>
+                <p>Sucesso ao cadastrar usuário!!!</p>
+            </div>';
+    } else {
+        echo '<div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Cadastro</h4>
+                <p>Erro ao cadastrar usuário</p>
+            </div>';
     }
-
+}
 ?>
 
 <fieldset>
@@ -46,11 +39,11 @@
         <div class="form-group">
             <label>Senha</label>
             <input type="password" name="txtSenha" class="form-control" placeholder="Senha">
-        </div>    
+        </div>
         <div class="form-group">
             <label>Nome</label>
             <input type="text" name="txtNome" class="form-control" placeholder="Seu nome">
-        </div>    
+        </div>
         <button type="submit" name="btnCadastrar" class="btn btn-primary">Enviar</button>
     </form>
 </fieldset>
