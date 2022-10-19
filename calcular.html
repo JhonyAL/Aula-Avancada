@@ -8,7 +8,18 @@
 </head>
 <body>
     <div id="form">
-        <input type="search" name="" id="consultClube">
+        <input type="number" name="" id="n1">
+        <select name="" id="op">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="/">/</option>
+            <option value="*">*</option>
+        </select>
+        
+        <input type="number" name="" id="n2">
+        <button id="btnCalculo">Calcular</button>
+
+        <h1 style="display: flex;">Resultado: <span id="result"></span></h1>
     </div>
 
     <script src="./js/jquery.js"></script>
